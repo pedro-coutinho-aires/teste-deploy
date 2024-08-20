@@ -46,6 +46,7 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.experimental_set_query_params(
-    embed_options=["light_theme", "show_toolbar"],
-)
+# st.experimental_set_query_params(
+#     embed=true,        
+#     embed_options=["light_theme", "show_toolbar"],
+# )
