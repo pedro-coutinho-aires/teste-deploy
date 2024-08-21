@@ -48,7 +48,7 @@ with gallery_col1:
     st.subheader('Histograma')
     
     hist_data = np.random.randn(1000)
-    st.hist(hist_data)
+    st.bar_chart(hist_data)
 
 # Segundo gráfico da galeria
 with gallery_col2:
