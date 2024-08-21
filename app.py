@@ -54,4 +54,5 @@ with gallery_col1:
 with gallery_col2:
     st.subheader('Box Plot')
 
-    box_data = pd.DataFrame(np.random.randn(100,
+    box_data = pd.DataFrame(np.random.randn(100, 4), columns=['A', 'B', 'C', 'D'])
+    st.box_chart(box_data)
