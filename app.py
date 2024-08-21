@@ -1,77 +1,57 @@
-apt-get matplotlib
-
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
-# Setting the title of the dashboard
-st.title('Dashboard Example with Two Columns and Graph Gallery')
+# Configurando o título do dashboard
+st.title('Exemplo de Dashboard com Duas Colunas e Galeria de Gráficos')
 
-# Example data
+# Dados de exemplo
 data = pd.DataFrame({
-    'Category': ['A', 'B', 'C', 'D'],
-    'Values': [4, 7, 1, 8]
+    'Categoria': ['A', 'B', 'C', 'D'],
+    'Valores': [4, 7, 1, 8]
 })
 
-# Two columns layout
+# Layout de duas colunas
 col1, col2 = st.columns(2)
 
-# First column
+# Primeira coluna
 with col1:
-    st.header('Column 1')
-    st.subheader('Bar Chart')
+    st.header('Coluna 1')
+    st.subheader('Gráfico de Barras')
     
-    fig, ax = plt.subplots()
-    ax.bar(data['Category'], data['Values'], color='skyblue')
-    ax.set_title('Bar Chart Example')
-    st.pyplot(fig)
-    
-    st.subheader('Line Chart')
-    
-    fig, ax = plt.subplots()
-    ax.plot(data['Category'], data['Values'], marker='o', linestyle='-', color='green')
-    ax.set_title('Line Chart Example')
-    st.pyplot(fig)
+    st.bar_chart(data.set_index('Categoria'))
 
-# Second column
+    st.subheader('Gráfico de Linhas')
+    
+    st.line_chart(data.set_index('Categoria'))
+
+# Segunda coluna
 with col2:
-    st.header('Column 2')
-    st.subheader('Scatter Plot')
+    st.header('Coluna 2')
+    st.subheader('Gráfico de Dispersão')
     
-    fig, ax = plt.subplots()
-    ax.scatter(data['Category'], data['Values'], color='red')
-    ax.set_title('Scatter Plot Example')
-    st.pyplot(fig)
-    
-    st.subheader('Pie Chart')
-    
-    fig, ax = plt.subplots()
-    ax.pie(data['Values'], labels=data['Category'], autopct='%1.1f%%', colors=['gold', 'lightcoral', 'lightblue', 'lightgreen'])
-    ax.set_title('Pie Chart Example')
-    st.pyplot(fig)
+    st.write("**Simulação de gráfico de dispersão**")
+    st.write(data)
 
-# Gallery section for additional graphs
-st.header('Gallery of Graphs')
+    st.subheader('Gráfico de Pizza')
+    
+    st.write("**Simulação de gráfico de pizza**")
+    st.write(data)
+
+# Seção de Galeria de Gráficos
+st.header('Galeria de Gráficos')
 
 gallery_col1, gallery_col2 = st.columns(2)
 
-# First graph in gallery
+# Primeiro gráfico da galeria
 with gallery_col1:
-    st.subheader('Histogram')
+    st.subheader('Histograma')
     
     hist_data = np.random.randn(1000)
-    fig, ax = plt.subplots()
-    ax.hist(hist_data, bins=30, color='purple')
-    ax.set_title('Histogram Example')
-    st.pyplot(fig)
+    st.histogram(hist_data)
 
-# Second graph in gallery
+# Segundo gráfico da galeria
 with gallery_col2:
     st.subheader('Box Plot')
-    
-    box_data = [np.random.randn(100) for _ in range(4)]
-    fig, ax = plt.subplots()
-    ax.boxplot(box_data)
-    ax.set_title('Box Plot Example')
-    st.pyplot(fig)
+
+    box_data = pd.DataFrame(np.random.randn(100,
