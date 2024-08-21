@@ -1,52 +1,75 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
-st.title('Uber pickups in NYC')
+# Setting the title of the dashboard
+st.title('Dashboard Example with Two Columns and Graph Gallery')
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+# Example data
+data = pd.DataFrame({
+    'Category': ['A', 'B', 'C', 'D'],
+    'Values': [4, 7, 1, 8]
+})
 
-@st.cache_data
+# Two columns layout
+col1, col2 = st.columns(2)
 
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
+# First column
+with col1:
+    st.header('Column 1')
+    st.subheader('Bar Chart')
+    
+    fig, ax = plt.subplots()
+    ax.bar(data['Category'], data['Values'], color='skyblue')
+    ax.set_title('Bar Chart Example')
+    st.pyplot(fig)
+    
+    st.subheader('Line Chart')
+    
+    fig, ax = plt.subplots()
+    ax.plot(data['Category'], data['Values'], marker='o', linestyle='-', color='green')
+    ax.set_title('Line Chart Example')
+    st.pyplot(fig)
 
-data_load_state = st.text('Loading data...')
-data = load_data(100000)
-data_load_state.text("Done! (using st.cache_data)")
+# Second column
+with col2:
+    st.header('Column 2')
+    st.subheader('Scatter Plot')
+    
+    fig, ax = plt.subplots()
+    ax.scatter(data['Category'], data['Values'], color='red')
+    ax.set_title('Scatter Plot Example')
+    st.pyplot(fig)
+    
+    st.subheader('Pie Chart')
+    
+    fig, ax = plt.subplots()
+    ax.pie(data['Values'], labels=data['Category'], autopct='%1.1f%%', colors=['gold', 'lightcoral', 'lightblue', 'lightgreen'])
+    ax.set_title('Pie Chart Example')
+    st.pyplot(fig)
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
+# Gallery section for additional graphs
+st.header('Gallery of Graphs')
 
-st.subheader('Number of pickups by hour')
-hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
+gallery_col1, gallery_col2 = st.columns(2)
 
+# First graph in gallery
+with gallery_col1:
+    st.subheader('Histogram')
+    
+    hist_data = np.random.randn(1000)
+    fig, ax = plt.subplots()
+    ax.hist(hist_data, bins=30, color='purple')
+    ax.set_title('Histogram Example')
+    st.pyplot(fig)
 
-st.bar_chart(hist_values)
-
-# Some number in the range 0-23
-hour_to_filter = st.slider('hour', 0, 23, 17)
-filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
-
-st.subheader('Map of all pickups at %s:00' % hour_to_filter)
-st.map(filtered_data)
-
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-# st.experimental_set_query_params(
-#     embed=true,        
-#     embed_options=["light_theme", "show_toolbar"],
-# )
+# Second graph in gallery
+with gallery_col2:
+    st.subheader('Box Plot')
+    
+    box_data = [np.random.randn(100) for _ in range(4)]
+    fig, ax = plt.subplots()
+    ax.boxplot(box_data)
+    ax.set_title('Box Plot Example')
+    st.pyplot(fig)
